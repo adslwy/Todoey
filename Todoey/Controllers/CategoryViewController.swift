@@ -80,7 +80,6 @@ class CategoryViewController: UITableViewController {
     }
     
     
-    
     // MARK: - Table view delegate methods
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
