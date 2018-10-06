@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BE69DD5621670EAF007CA0DA /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE69DD5521670EAF007CA0DA /* CategoryViewController.swift */; };
 		BED928D321630E2800AA96EB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED928D221630E2800AA96EB /* AppDelegate.swift */; };
 		BED928D521630E2800AA96EB /* ToDoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED928D421630E2800AA96EB /* ToDoListViewController.swift */; };
 		BED928D821630E2800AA96EB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BED928D621630E2800AA96EB /* Main.storyboard */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BE69DD5521670EAF007CA0DA /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		BED928CF21630E2800AA96EB /* Todoey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Todoey.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BED928D221630E2800AA96EB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BED928D421630E2800AA96EB /* ToDoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListViewController.swift; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 		BED928E82164596C00AA96EB /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				BE69DD5521670EAF007CA0DA /* CategoryViewController.swift */,
 				BED928D421630E2800AA96EB /* ToDoListViewController.swift */,
 			);
 			path = Controllers;
@@ -162,6 +165,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE69DD5621670EAF007CA0DA /* CategoryViewController.swift in Sources */,
 				BED928D521630E2800AA96EB /* ToDoListViewController.swift in Sources */,
 				BED928EE2165B37800AA96EB /* DataModel.xcdatamodeld in Sources */,
 				BED928D321630E2800AA96EB /* AppDelegate.swift in Sources */,

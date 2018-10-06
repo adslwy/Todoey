@@ -13,6 +13,12 @@ class ToDoListViewController: UITableViewController {
     
     var itemArray: Array<Item> = Array()
         //["Find Mike", "Buy Eggos", "Walking by the Street"]
+    var selectCategory: Category?{
+        didSet{
+       
+            self.loadItems()
+        }
+    }
     
     let defaults = UserDefaults.standard //don't use this to generate database
     
@@ -37,7 +43,7 @@ class ToDoListViewController: UITableViewController {
 //        itemArray.append(Item("Walking by the Street"))
         
         
-        self.loadItems()
+//        self.loadItems()
         
     }
     
@@ -88,6 +94,7 @@ class ToDoListViewController: UITableViewController {
          
             let item = Item(context: self.context)
             item.title = textField.text!
+            item.parentCategory = self.selectCategory
             self.itemArray.append(item)
             self.saveItems()
             
@@ -139,9 +146,18 @@ class ToDoListViewController: UITableViewController {
     }
     
     
-    func loadItems(with request:NSFetchRequest<Item> = Item.fetchRequest()) -> () {
+    func loadItems(with request:NSFetchRequest<Item> = Item.fetchRequest(), predict:NSPredicate? = nil) -> () {
         //load data from database
+        let parentPredicate = NSPredicate(format: "parentCategory.name MATCHES[cd] %@", selectCategory!.name!)
         do{
+            if let additionalPredict = predict{
+                let compondPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [parentPredicate, additionalPredict])
+                request.predicate = compondPredicate
+                
+            }else{
+                request.predicate = parentPredicate
+                
+            }
             self.itemArray = try self.context.fetch(request)
         }catch{
             print("load data error \(error)")
@@ -155,12 +171,25 @@ class ToDoListViewController: UITableViewController {
 
 //Using Extension to org the code by protocol and funcionality
 extension ToDoListViewController : UISearchBarDelegate{
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let request: NSFetchRequest<Item> = Item.fetchRequest()
-        request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!) //[cd] means query case&diacrtic insensitive
+        let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!) //[cd] means query case&diacrtic insensitive
         request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)] //sort result
-        loadItems(with: request)
-        
-        
+        loadItems(with: request, predict: predicate)
+    }
+    
+    //bonus from Tom's answer, show result while typing
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text!.count == 0{
+            self.loadItems()
+            //如果没有DispatchQueue.main, resignFirstResponder会在后台等待其他任务完成后执行，因此用户不能第一时间看到键盘和光标消失。DispatchQueue.mainresignFirstResponder掉到前端来立刻执行比较符合平时用户的习惯
+            //as a rule of thumb, all UI related code should be on the main queue.
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder() //tell the search bar to stop being the first responder so it will dismiss the keyboard  & cursor
+            }
+        }else{
+            searchBarSearchButtonClicked(searchBar)
+        }
     }
 }
